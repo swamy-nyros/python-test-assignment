@@ -325,7 +325,7 @@ class mailHandler(BaseHandler):
         mail_store = User(email1 = userMail,subject =subject,message= userMessage)
         mail_store.put()
         
-        message=mail.EmailMessage(sender="vinodsesetti@yopmail.com",subject="Test")
+        message=mail.EmailMessage(sender="swamy.nyros@gmail.com",subject="Test")
 
 
 

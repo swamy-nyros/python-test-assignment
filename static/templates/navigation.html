@@ -1,0 +1,17 @@
+        <div class="container">
+            <div class="masthead">
+                <h3 class="text-muted">Test_App</h3>
+                <nav>
+                    <ul class="nav nav-tabs nav-justified">
+                        <li role="presentation" style="cursor:pointer" ><a ng-href="/" >Home</a></li>
+                            <li role="presentation" style="cursor:pointer" ng-click=""><a ng-href="#/signup">SignUp {{name}}</a></li>
+                            {% if not user %}                                                          
+                                <li role="presentation" style="cursor:pointer" ng-click=""><a ng-href="#/login">LogIn</a> </li>
+                            {% else %}                                
+                                <li role="presentation" style="cursor:pointer" ng-click=""><a ng-href="#/logout">Logout</a></li> Logged in as {{ user.name }}                            
+                            {% endif %}
+                            <!-- <li role="presentation"><a href="/authenticated">Secured page</a></li>      -->        
+                        </ul>
+                    </nav>
+            </div>
+        </div>

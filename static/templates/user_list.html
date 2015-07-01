@@ -1,0 +1,9 @@
+{% extends "main.html" %}
+{% block maincontent %}
+	<h3 style="margin-left:130px">Users</h3>
+	{% for user in user_list %}
+		<ul style="margin-left:110px">
+			<li><a href="#">{{ user.name }}</a></li>
+		</ul>
+	{% endfor %}
+{% endblock %}

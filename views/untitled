@@ -2,7 +2,6 @@
 {% block title %}Register a new user{% endblock %}
 {% block maincontent %}
 	<h1>Register a new user</h1>
-	<h2> {{ message }} </h2>
 	<!-- 	<form action="/signup" method="POST">
 		<label for="fullname">Fullname</label>
 		<input type="text" name="fullname" />

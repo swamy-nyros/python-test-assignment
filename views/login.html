@@ -1,6 +1,8 @@
 {% extends "main.html" %}
 {% block maincontent %}
-	<h1 style=" text-align:center">Login</h1>
+	<h1>Login</h1>
+	<h2>akjdad</h2>
+	<h2> {{alerts}} </h2>
 	{% if failed %}
 		<strong>Login failed!</strong> Check your credentials and try again.
 	{% endif %}
@@ -15,14 +17,14 @@
 		<div class="form-group">
 			<label for="fullname" class="col-sm-2 control-label">Fullname</label>
 			<div class="col-sm-8">
-				<input type="text" value="{{ fullname }}" class="form-control" id="inputEmail3" placeholder="Fullname" name="fullname" required>
+				<input type="text" value="{{ fullname }}" class="form-control" id="inputEmail3" placeholder="Fullname" name="fullname">
 			</div>
 		</div>
 		
 		<div class="form-group">
 			<label for="password" class="col-sm-2 control-label">Password</label>
 			<div class="col-sm-8">
-				<input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="password" required>
+				<input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="password">
 			</div>
 		</div>
 		
@@ -32,7 +34,7 @@
 			</div>
 		</div>
 	</form>
-	<div class="form-group"style = "margin-left:-10px" >
+	<div class="form-group" >
 		<div class="col-sm-offset-2 col-sm-8">
 			<a href="/forgot"><button type="submit" class="btn btn-primary" >Forgot password</button></a>
 		</div>

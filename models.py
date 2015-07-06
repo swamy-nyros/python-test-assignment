@@ -7,8 +7,6 @@ from google.appengine.ext import db
 
 from webapp2_extras import security
 
-
-
 class User(webapp2_extras.appengine.auth.models.User):
 
     def set_password(self, raw_password):
@@ -27,3 +25,7 @@ class User(webapp2_extras.appengine.auth.models.User):
 
         return None, None
 
+class Message(db.Model):
+    
+    receiver = db.StringProperty()
+    message = db.StringProperty()

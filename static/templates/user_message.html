@@ -1,0 +1,27 @@
+<div>
+	<h1>Message</h1>
+	
+	<form class="form-horizontal" method="POST">
+		<div class="form-group">
+			<label for="reciver" class="col-sm-2 control-label">Reciver</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" id="inputtext" placeholder="reciver" name="reciver" ng-model="fields.reciver" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="message" class="col-sm-2 control-label">Message</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" id="inputtext" placeholder="Message" name="message" ng-model="fields.message" required>
+			</div>
+		</div>
+		
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-8">
+				<button type="submit" class="btn btn-primary" ng-click="submitMyForm1()">Send</button>
+			</div>
+		</div>
+	</form>	
+
+	
+</div>

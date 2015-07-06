@@ -1,33 +1,9 @@
 {% extends "main.html" %}
-
 {% block maincontent %}
-
-<div class="jumbotron" >
-	<h3 style = "text-align:center">Logged in as {{ user.name }}</h3>
-	<div class="col-sm-6 col-md-4">
-		
-		{% for user in user_list %}
-
-		<ul>
-			<li><a href="/mail">{{ user.name }}</a></li>
-			
+	<h3 style="margin-left:130px">Users</h3>
+	{% for user in user_list %}
+		<ul style="margin-left:110px">
+			<li><a href="#">{{ user.name }}</a></li>
 		</ul>
-		{% endfor %}
-
-	</div>
-
-	<div class="col-sm-6 col-md-4">
-		<h3 style = "text-align:center">Messages</h3>
-
-		{% for user in user_list %}
-
-		<ul style="list-style-type:none;text-align:center">
-			<li>{{ user.message }}</li>
-			
-		</ul>
-		{% endfor %}
-
-	</div>
-</div>
-
+	{% endfor %}
 {% endblock %}

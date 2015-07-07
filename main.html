@@ -3,16 +3,14 @@
     <head>
         <meta charset="utf-8"/>
         <title>{% block title %}TestApp{% endblock %}</title>
-        <!-- Latest compiled and minified CSS -->
         
         <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
         <script src="/static/js/bootstrap.js"></script> 
         <script src="/static/js/jquery-1.11.3.min.js"></script>
-                 
+        <script src="/static/js/angular.js"></script>          
         <script src="/static/js/angular-route.js"></script> 
-     
-        <script src="/static/js/angular.js"></script>  
         <script src="/static/js/myController.js"></script>        
+
         
         <style>
         input {
@@ -29,7 +27,7 @@
                 <h3 class="text-muted">Test_App</h3>
                 <nav>
                     <ul class="nav nav-tabs nav-justified">
-                        <li role="presentation"  ><a href="#/home" >Home</a></li>
+                        <li role="presentation"  ><a href="#/main" >Home</a></li>
                         <li role="presentation"  ><a href="#/signup">SignUp </a></li>
                         {% if not user %}
                             <li role="presentation" ><a href="#/login">LogIn</a> </li>
@@ -47,5 +45,30 @@
         <div class="content" ng-view>
               
         </div>
+        <!-- <div>
+            <footer>
+                <hr/>
+                <p>
+                    {% if not user %}
+                        <a href="/login">Login (and forgot password)</a>
+                    {% else %}
+                        Logged in as <span style="background-color: OldLace">{{ user.name }}</span> | <a href="/logout">Logout</a>
+                    {% endif %}
+                    |
+                    <a href="/">Home</a>
+                    |
+                    <a href="/signup">New user</a>
+                    |
+                    <a href="/authenticated">Secured page</a> (you can see this after login)
+                    |
+                    <a href="http://blog.abahgat.com/2013/01/07/user-authentication-with-webapp2-on-google-app-engine/">Tutorial</a>
+                    |
+                    <a href="http://github.com/abahgat/webapp2-user-accounts">Source code</a>
+                </p>
+                <div class="view-container">
+            <div ng-view class="view-frame"></div>
+        </div>
+            </footer>
+        </div> -->
     </body>
 </html>

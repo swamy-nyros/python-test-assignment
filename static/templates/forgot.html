@@ -5,11 +5,6 @@
 	{% if not_found %}
 		<strong>Not found!</strong> We could not found any user with the given username.
 	{% endif %}
-	<!-- <form class="form" action= "/forgot" method="POST">
-		<input type="text" value="{{ username }}" name="username"/>
-		<input type="submit" value="Send password reset link"/>
-	</form> -->
-
 	<form class="form-horizontal" action="/forgot" method="POST" >
 		<div class="form-group">
 			<label for="fullname" class="col-sm-2 control-label">Fullname</label>

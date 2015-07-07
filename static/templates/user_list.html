@@ -1,25 +1,19 @@
-<html>
-<head></head>
-<body ng-controller="MainController"></body>
-<div>
 
-	<h3 style="margin-left:130px">Users</h3>
+<div ng-include src="'static/templates/navigation.html'"></div>
+<div>
+	<h3 style="margin-left:130px;text-align:center">Users</h3>
 	{{ user.name }}
 
 	<div ng-repeat="user in users track by $index">
 		<ul>
-				<li>
+			<li>
 				<a  href = "#/usermessage">{{user}}</a>
 			</li>
 
 		</ul>
 		
 	</div>
-
-	<h4>Messages</h4>
-
-	
-
+		<h4 style="text-align:center">Messages</h4>
 		<div ng-repeat="message in messages track by $index">
 		<ul>
 				<li>
@@ -29,14 +23,5 @@
 		</ul>
 		
 	</div>
-
-
 	</div>	
-
-	<!-- {% for user in user_list %}
-		<ul style="margin-left:110px">
-			<li><a href="#">{{ user.name }}</a></li>
-		</ul>
-	{% endfor %} -->
 </div>
-</html>

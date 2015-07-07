@@ -1,14 +1,19 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+
+<script src="/static/js/jquery-1.11.3.min.js"></script>
+<script src="/static/js/bootstrap.js"></script> 
+<script src="/static/js/angular.js"></script>  
+        <script src="https://code.angularjs.org/1.3.14/angular-route.js"></script> 
+        <script src="/static/js/myController.js"></script>        
+
+</head>  
+<div ng-include src="'static/templates/navlogin.html'"></div>
 <div>
-	<h1>Login</h1>
-	<h2>{{alerts.message}}</h2>
-<!-- 	{% if failed %}
-		<strong>Login failed!</strong> Check your credentials and try again.
-	{% endif %} 
-
-	<script type=text/javascript>
-    doSomethingWith({{ user.name|tojson|safe }});
-	</script>-->
-
+	<h3 style=" text-align:center">Login</h3>
+	
+	<h4 style=" text-align:center;color:red">{{stat}}</h4>
 	<form class="form-horizontal" method="POST" ng-submit="loginForm()">
 		<div class="form-group">
 			<label for="fullname" class="col-sm-2 control-label">Fullname</label>
@@ -38,3 +43,4 @@
 	
 	
 </div>
+</html>

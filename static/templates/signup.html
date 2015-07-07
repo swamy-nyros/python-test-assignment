@@ -1,6 +1,17 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+<script src="/static/js/jquery-1.11.3.min.js"></script>
+<script src="/static/js/bootstrap.js"></script> 
+<script src="/static/js/angular.js"></script>  
+        <script src="https://code.angularjs.org/1.3.14/angular-route.js"></script> 
+        <script src="/static/js/myController.js"></script>        
+
+</head>  
+<div ng-include src="'static/templates/navsignup.html'"></div>
 <div>
-	<h1>Register a new user</h1>
-	<h2>{{alerts.message}}</h2>
+	<h3 style=" text-align:center">Register a new user</h3>
+	<h5 style="color:red	">{{alerts.message}}</h5>
 	<form class="form-horizontal" method="POST" ng-submit="submitMyForm()">
 		<div class="form-group">
 			<label for="fullname" class="col-sm-2 control-label">Fullname</label>

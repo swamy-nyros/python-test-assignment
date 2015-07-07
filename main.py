@@ -1,13 +1,9 @@
-#!/usr/bin/env python
 from google.appengine.ext.webapp import template
-
 from google.appengine.ext import ndb
-# from google.appengine.ext import db
 from google.appengine.api import users
 import logging
 import os.path
 import webapp2
-
 from webapp2_extras import auth
 from webapp2_extras import sessions
 
@@ -64,19 +60,19 @@ class BaseHandler(webapp2.RequestHandler):
             'message': message
         }
         self.render_template('message.html', params)
-
-   
     def dispatch(self):
         self.session_store = sessions.get_store(request=self.request)
-
         try:
+            # Dispatch the request.
             webapp2.RequestHandler.dispatch(self)
         finally:
+            # Save all sessions.
             self.session_store.save_sessions(self.response)
 class MainHandler(BaseHandler):
 
     def get(self):
         self.render_template('main.html')
+
 class SignupHandler(BaseHandler):    
 
     def get(self):
@@ -88,6 +84,9 @@ class SignupHandler(BaseHandler):
         print "this is post in SignupHandler"
         data = json.loads(self.request.body)
         print data
+
+        print type(data)
+        
         fullname = data.get('fullname')
         email = data.get('email')
         password = data.get('password')
@@ -114,7 +113,9 @@ class SignupHandler(BaseHandler):
             self.response.write(json.dumps(result))
         else:
             users = User.query().fetch()
+
             user_list = []
+
             for user in users:
                 user_list.append(user)
                 print user.name
@@ -124,7 +125,6 @@ class SignupHandler(BaseHandler):
             result = {'status_message': status_message, 'message': message}
             self.response.headers['content-type'] = 'application/json'
             self.response.write(json.dumps(result))
-
 
 class ForgotPasswordHandler(BaseHandler):
 
@@ -168,10 +168,6 @@ class VerificationHandler(BaseHandler):
         signup_token = kwargs['signup_token']
         verification_type = kwargs['type']
 
-        # it should be something more concise like
-        # self.auth.get_user_by_token(user_id, signup_token)
-        # unfortunately the auth interface does not (yet) allow to manipulate
-        # signup tokens concisely
         user, ts = self.user_model.get_by_auth_token(int(user_id), signup_token,
                                                      'signup')
 
@@ -221,30 +217,13 @@ class SetPasswordHandler(BaseHandler):
         user = self.user
         user.set_password(password)
         user.put()
-
-        # remove signup token, we don't want users to come back with an old
-        # link
         self.user_model.delete_signup_token(user.get_id(), old_token)
-
         self.display_message('Password updated')
 
 
 class LoginHandler(BaseHandler):
-
-    # def get(self):
-    # guests = model.AllGuests()
-    # r = [ AsDict(guest) for guest in guests ]
-    # self.SendJson(r)
-
     def get(self):
         self._serve_page()
-
-    
-    # def SendJson(self, r):
-    #     self.response.headers['content-type'] = 'text/plain'
-    #     self.response.write(json.dumps(r))
-
-
     def post(self):
         print "this is post in LoginHandler"
         data = json.loads(self.request.body)
@@ -252,31 +231,13 @@ class LoginHandler(BaseHandler):
 
         print type(data)
         
-        print"***************"*20
         fullname = data.get('fullname')       
         password = data.get('password')
         print fullname  
         print password
-        print"***************"*20
-
-    # def post(self):
-    #     name = self.request.get('fullname')
-    #     password = self.request.get('password')
-        # email = self.request.get('email_address')
-        # auser = self.auth.get_user_by_session()
-        # userid = auser['user_id']
-        # user = auth_models.User.get_by_id(auser['user_id'])
-        # existing_user = auth_models.User.get_by_auth_id(email)
-
-        # user = self.auth.get_user_by_session()
-
-        # print user
-        # print existing_user
         try:
             u = self.auth.get_user_by_password(fullname, password, remember=True,
                                            save_session=True)
-
-            
             all_users = User.query().fetch()
 
             user_list = []
@@ -284,8 +245,6 @@ class LoginHandler(BaseHandler):
             print "Name Name "
             print u.get('name')
             curren_user = u.get('name')
-            
-
             for user in all_users:
                 user_list.append(user.name)
                 print user.name
@@ -296,46 +255,28 @@ class LoginHandler(BaseHandler):
             message = Message.all()
             current_message = message.filter("receiver =", "%s"%curren_user )
             print current_message
-            
-            print '>>>>>>>>>>>>>>>>>>>>>>'
-
-            #message.filter("last_name =", "Smith")
 
             for msg in message:
                 message_list.append(msg.message) 
-            print '************************'    
             print message_list    
-            print '************************'
-
-            # status_message = "Success"
-            # message = "Successfully registerd please signin"
-            # result = {'status_message': status_message, 'message': message}
-            
-
-            #self.response.headers['content-type'] = 'text/plain'
-            #self.response.write(json.dumps(user_list,message_list))
-
-
-
             userlist = user_list
             messagelist = message_list
-            result = {'userlist': userlist, 'messagelist': messagelist}
+            
+            result = {'userlist': userlist, 'messagelist': messagelist, 'curren_user':curren_user}
             self.response.headers['content-type'] = 'application/json'
+            
             self.response.write(json.dumps(result))
 
 
-
-
-            #self.send(user_list)
-            # self.render_template('user_list.html', {'user_list': user_list})
-            # user = users.get_current_user()
-            # print user.name
-
-            # self.redirect(self.uri_for('home'))
         except (InvalidAuthIdError, InvalidPasswordError) as e:
             logging.info(
                 'Login failed for user %s because of %s', fullname, type(e))
-            self._serve_page(True)
+            # self._serve_page(True)
+            stat = "invalid user"
+            result = {'stat': stat}
+            self.response.headers['content-type'] = 'application/json'
+            self.response.write(json.dumps(result))
+
 
     def _serve_page(self, failed=False):
         name = self.request.get('fullname')
@@ -363,9 +304,9 @@ class UserHandler(BaseHandler):
 class LogoutHandler(BaseHandler):
 
     def get(self):
+        print "logout"
         self.auth.unset_session()
-        self.redirect(self.uri_for('/home'))
-
+        self.response.write("logout successfully")
 
 class AuthenticatedHandler(BaseHandler):
 
@@ -393,22 +334,17 @@ class MessageHandler(BaseHandler):
 
 class User_messageHandler(BaseHandler):
     def get(self):
-        print '**********This is upto template*****************'
         self.render_template('user_message.html')
-
-
     def post(self):
         print "this is post in usermessageHandler"
         data = json.loads(self.request.body)
         print data
         print type(data)
-        print"***************"*20
         reciver = data.get('reciver')
         message= data.get('message')
         
         print reciver
         print Message
-        print"***************"*20
         user_message = Message(receiver = reciver,message= message)
         user_message.put()
         message_list = []
@@ -417,87 +353,12 @@ class User_messageHandler(BaseHandler):
             message_list.append(msg.message)
             
             print msg.message
-              
-
-        print '_______________________________'
         print message_list 
-        print '_______________________________'   
         self.response.headers['content-type'] = 'text/plain'
         self.response.write(json.dumps(message_list))
-    
-
-        # print data.fullname
-        # print data.email
-        # print data.password
-        
-        # for json_data in data:
-        #     print json_data.fullname
-        #     print json_data.email
-        #     print json_data.password
-        # email = self.request.get('email')
-        # name = self.request.get('name')
-        # password = self.request.get('password')
-        # last_name = self.request.get('lastname')
-
-        #unique_properties = ['email_address', 'name']
-        # user_message = self.user_model.create_user(
-                                                
-        #                                         reciver=reciver, 
-        #                                         Messgage=Messgage,
-        #                                         verified=False)
-        # user_data = self.user_model.create_user(fullname,
-        #                                         unique_properties,
-        #                                         email_address=email, name=fullname,
-        #                                         password_raw=password,
-        #                                         verified=False)
         print reciver
         
         print Message
-        #print user_data
-        # if not user_message[0]:  # user_data is a tuple
-        #     print "Unable to create user for emailb because of duplicate keys"
-        #     status_message = "Error"
-        #     message = 'Unable to create user for email %s because of \
-        #     duplicate keys %s' % (fullname, user_data[1])
-        #     result = {'status_message': status_message, 'message': message}
-        #     self.response.headers['content-type'] = 'application/json'
-        #     self.response.write(json.dumps(result))
-        #     # self.display_message('Unable to create user for email %s because of \
-        #     # duplicate keys %s' % (fullname, user_data[1]))
-        #     # return
-        # else:
-        #     users = User.query().fetch()
-
-        #     user_list = []
-
-        #     for user in users:
-        #         user_list.append(user)
-        #         print user.name
-
-
-        #     user = user_data[1]
-        # # user_id = user.get_id()
-
-        # # token = self.user_model.create_signup_token(user_id)
-
-        # # verification_url = self.uri_for('verification', type='v', user_id=user_id,
-        #                                 # signup_token=token, _full=True)
-
-        # # msg = 'Send an email to user in order to verify \
-        # #      their address. \
-        # #   They will be able to do so by visiting <a href="{url}">{url}</a>'
-
-        # # self.display_message(msg.format(url=verification_url))
-        #     status_message = "Success"
-        #     message = "Successfully registerd please signin"
-        #     result = {'status_message': status_message, 'message': message}
-        #     self.response.headers['content-type'] = 'application/json'
-        #     self.response.write(json.dumps(result))
-
-
-
-
-
 
 config = {
     'webapp2_extras.auth': {

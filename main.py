@@ -12,6 +12,7 @@ from webapp2_extras.auth import InvalidPasswordError
 
 from models import User, Message
 import json
+import logging
 
 def user_required(handler):    
     def check_login(self, *args, **kwargs):
@@ -22,10 +23,7 @@ def user_required(handler):
             return handler(self, *args, **kwargs)
 
     return check_login
-
-
 class BaseHandler(webapp2.RequestHandler):
-
     @webapp2.cached_property
     def auth(self):
         return auth.get_auth()
@@ -118,7 +116,7 @@ class SignupHandler(BaseHandler):
 
             for user in users:
                 user_list.append(user)
-                print user.name
+                #print user.name
             user = user_data[1]
             status_message = "Success"
             message = "Successfully registerd please signin"
@@ -239,16 +237,16 @@ class LoginHandler(BaseHandler):
             u = self.auth.get_user_by_password(fullname, password, remember=True,
                                            save_session=True)
             all_users = User.query().fetch()
-
+            logging.info(all_users) 
             user_list = []
-            print "Name Name "
-            print "Name Name "
             print u.get('name')
             curren_user = u.get('name')
             for user in all_users:
                 user_list.append(user.name)
-                print user.name
+                #print user.name
+            
             print user_list
+            
             print type(user_list)
            
             message_list = []
@@ -262,7 +260,7 @@ class LoginHandler(BaseHandler):
             userlist = user_list
             messagelist = message_list
             
-            result = {'userlist': userlist, 'messagelist': messagelist, 'curren_user':curren_user}
+            result = {'userlist': userlist, 'messagelist': messagelist, 'curren_user':curren_user }
             self.response.headers['content-type'] = 'application/json'
             
             self.response.write(json.dumps(result))

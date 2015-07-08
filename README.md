@@ -1,17 +1,34 @@
-# Custom user authentication with webapp2
+Python test-app with webapp2 and angularJS
 
-This is a skeleton implementation of user account management with webapp2.
+Technologies:
+1)Python-webapp2
+2)Google App engine server
+3)Data store DB
+4)Angular JS
 
-You will have to take care of the following items:
+This is single page application.
 
-* ~~Implement user registration~~
-* ~~Write code to handle login~~
-* ~~Setup email verification and password recovery~~ (This has been done for you already)
-* Send email verification and password recovery messages via email
-* [Configure](https://developers.google.com/appengine/docs/python/config/appconfig#Secure_URLs) login and password reset urls to use https (you will have to deploy your app to test this)
+In This app user can perform following actions:
 
-You can find most of the logic in `main.py` (even though you may want to put handlers in separate files, as your app grows in complexity), a custom user model in `models.py`, and some extremely simple views in `views`.
+1)Sign Up
+2)Sign In
+3)Sign out
+4)Registered user can see List of users who are already registered.
+5)user can send messages to other users.
+6)Logged in user can see all messages sent by others.
 
-## More information
 
-You can find a detailed tutorial in this blog post: [Custom user authentication with webapp2](http://blog.abahgat.com/2013/01/07/user-authentication-with-webapp2-on-google-app-engine).
+How to Run in Local system:
+
+1)Download google app engine SDK from https://cloud.google.com/appengine/downloads
+2)in your terminal run following command
+
+google_appengine/dev_appserver.py <path for project directory>
+
+
+Demo:
+You can see demo from following URL
+
+https://webapp2-988.appspot.com/
+
+
